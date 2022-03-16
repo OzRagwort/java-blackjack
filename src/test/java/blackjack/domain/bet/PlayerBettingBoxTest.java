@@ -10,7 +10,7 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class PlayerBetMoniesTest {
+public class PlayerBettingBoxTest {
 
     @Test
     @DisplayName("플레이어들의 배팅 금액을 저장하는 일급 컬렉션을 생성한다.")
@@ -21,8 +21,8 @@ public class PlayerBetMoniesTest {
 
         Map<Player, BetMoney> betMonies = new LinkedHashMap<>();
         betMonies.put(player, betMoney);
-        PlayerBetMonies playerBetMonies = new PlayerBetMonies(betMonies);
+        PlayerBettingBox playerBettingBox = new PlayerBettingBox(betMonies);
 
-        assertThat(playerBetMonies.get(player).get()).isEqualTo(money);
+        assertThat(playerBettingBox.get(player).get()).isEqualTo(money);
     }
 }

@@ -1,8 +1,16 @@
 package blackjack.domain.player;
 
+import blackjack.domain.Outcome;
+import blackjack.domain.PlayerOutcomeResults;
+import blackjack.domain.bet.BetMoney;
+import blackjack.domain.bet.PlayerBettingBox;
+import blackjack.domain.bet.Profit;
+import blackjack.domain.bet.ProfitResults;
 import blackjack.domain.card.Deck;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -79,6 +87,30 @@ public class Players {
         return players.stream()
                 .filter(player -> !player.isDealer())
                 .collect(Collectors.toUnmodifiableList());
+    }
+
+    public PlayerOutcomeResults getOutcomes() {
+        Map<Player, Outcome> results = new LinkedHashMap<>();
+        Player dealer = getDealer();
+
+        for (Player player : getParticipants()) {
+            Outcome dealerOutcome = Outcome.matchAboutDealer((Dealer) dealer, player);
+            results.put(player, dealerOutcome.not());
+        }
+        return new PlayerOutcomeResults(results);
+    }
+
+    public ProfitResults getProfits(PlayerBettingBox bettingBox) {
+        Map<Player, Profit> profitResults = new LinkedHashMap<>();
+        Map<Player, Outcome> outcomes = getOutcomes().getResults();
+
+        for (Player player : getParticipants()) {
+            Outcome outcome = outcomes.get(player);
+            BetMoney betMoney = bettingBox.get(player);
+            profitResults.put(player, Profit.withOutcome(outcome, betMoney));
+        }
+
+        return new ProfitResults(profitResults);
     }
 
     @Override

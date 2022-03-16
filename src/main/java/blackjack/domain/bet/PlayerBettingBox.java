@@ -4,16 +4,16 @@ import blackjack.domain.player.Player;
 import java.util.Map;
 import java.util.Objects;
 
-public class PlayerBetMonies {
+public class PlayerBettingBox {
 
-    private final Map<Player, BetMoney> betMonies;
+    private final Map<Player, BetMoney> bettingBox;
 
-    public PlayerBetMonies(Map<Player, BetMoney> betMonies) {
-        this.betMonies = betMonies;
+    public PlayerBettingBox(Map<Player, BetMoney> bettingBox) {
+        this.bettingBox = bettingBox;
     }
 
     public BetMoney get(Player player) {
-        return betMonies.get(player);
+        return bettingBox.get(player);
     }
 
     @Override
@@ -24,19 +24,19 @@ public class PlayerBetMonies {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        PlayerBetMonies that = (PlayerBetMonies) o;
-        return Objects.equals(betMonies, that.betMonies);
+        PlayerBettingBox that = (PlayerBettingBox) o;
+        return Objects.equals(bettingBox, that.bettingBox);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(betMonies);
+        return Objects.hash(bettingBox);
     }
 
     @Override
     public String toString() {
-        return "PlayerBetMonies{" +
-                "betMonies=" + betMonies +
+        return "PlayerBettingBox{" +
+                "bettingBox=" + bettingBox +
                 '}';
     }
 }

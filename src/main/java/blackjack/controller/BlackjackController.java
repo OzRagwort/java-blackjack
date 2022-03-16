@@ -2,16 +2,13 @@ package blackjack.controller;
 
 import blackjack.domain.HitOrStayAnswer;
 import blackjack.domain.bet.BetMoney;
-import blackjack.domain.bet.PlayerBetMonies;
+import blackjack.domain.bet.PlayerBettingBox;
 import blackjack.domain.card.Deck;
-import blackjack.domain.player.Dealer;
 import blackjack.domain.player.Player;
 import blackjack.domain.player.Players;
 import blackjack.domain.player.Name;
 import blackjack.domain.player.Participant;
 import blackjack.domain.card.RandomDeck;
-import blackjack.domain.Outcome;
-import blackjack.domain.PlayerOutcomeResults;
 import blackjack.view.InputView;
 import blackjack.view.ResultView;
 import java.util.LinkedHashMap;
@@ -26,11 +23,12 @@ public class BlackjackController {
 
         Players players = createPlayers(deck);
 
-        PlayerBetMonies betMonies = createPlayerBetMonies(players.getParticipants());
+        PlayerBettingBox betMonies = createPlayerBetMonies(players.getParticipants());
         ResultView.printInitCard(players);
 
         play(players, deck);
-        printResults(players);
+        ResultView.printCardsResults(players);
+        ResultView.printProfitResults(players.getProfits(betMonies));
     }
 
     private Players createPlayers(Deck deck) {
@@ -52,7 +50,7 @@ public class BlackjackController {
                 .collect(Collectors.toList());
     }
 
-    private PlayerBetMonies createPlayerBetMonies(List<Player> players) {
+    private PlayerBettingBox createPlayerBetMonies(List<Player> players) {
         Map<Player, BetMoney> betMonies = new LinkedHashMap<>();
 
         for (Player player : players) {
@@ -60,7 +58,7 @@ public class BlackjackController {
             betMonies.put(player, new BetMoney(input));
         }
 
-        return new PlayerBetMonies(betMonies);
+        return new PlayerBettingBox(betMonies);
     }
 
     private void play(Players players, Deck deck) {
@@ -104,21 +102,5 @@ public class BlackjackController {
             ResultView.printDealerHitMessage();
             dealer.hit(deck.pick());
         }
-    }
-
-    private void printResults(Players players) {
-        ResultView.printCardsResults(players);
-        ResultView.printOutcomeResults(calculateOutcomeResults(players));
-    }
-
-    private PlayerOutcomeResults calculateOutcomeResults(Players players) {
-        Map<Player, Outcome> results = new LinkedHashMap<>();
-        Player dealer = players.getDealer();
-
-        for (Player player : players.getParticipants()) {
-            Outcome dealerOutcome = Outcome.matchAboutDealer((Dealer) dealer, player);
-            results.put(player, dealerOutcome.not());
-        }
-        return new PlayerOutcomeResults(results);
     }
 }

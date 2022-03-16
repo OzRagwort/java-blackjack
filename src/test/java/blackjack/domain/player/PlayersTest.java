@@ -38,6 +38,16 @@ public class PlayersTest {
     }
 
     @Test
+    @DisplayName("getOutcome")
+    void bbbb() {
+    }
+
+    @Test
+    @DisplayName("getProfits")
+    void aaaa() {
+    }
+
+    @Test
     @DisplayName("Participant의 이름이 중복되면 에러를 출력한다.")
     void duplicate_name_error() {
         Player aki1 = new Participant(new Name("aki"));

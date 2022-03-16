@@ -53,11 +53,11 @@ public class PlayerCards {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof PlayerCards)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        PlayerCards playerCards1 = (PlayerCards) o;
-        return Objects.equals(playerCards, playerCards1.playerCards);
+        PlayerCards that = (PlayerCards) o;
+        return Objects.equals(playerCards, that.playerCards);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class PlayerCards {
 
     @Override
     public String toString() {
-        return "Cards{" +
+        return "PlayerCards{" +
                 "playerCards=" + playerCards +
                 '}';
     }
